@@ -3,13 +3,28 @@ import { FaTimes, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import { Table, Button, Row, Col } from "react-bootstrap";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import { useGetProductsQuery } from "../../slices/productsApiSlice";
+import { toast }  from 'react-toastify'
+import { useCreateProductMutation, useGetProductsQuery } from "../../slices/productsApiSlice";
 
 const ProductListPage = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
+  const [createProduct, {isLoading: loadingCreate}] =  useCreateProductMutation()
 
   const deleteHandler = (id) => {
     console.log('delete ' + id);
+  }
+
+  const createProductHandler = async() => {
+    if ( window.confirm('Are you sure you want to create a new product?')) {
+      try {
+        await createProduct()
+        refetch()
+
+      } catch (error) {
+        toast.error(error?.data?.message || error.error)
+      }
+    }
   }
 
   return (
@@ -19,11 +34,12 @@ const ProductListPage = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="my-3">
+          <Button className="my-3" onClick={createProductHandler}>
             <FaPlus /> Create Product
           </Button>
         </Col>
       </Row>
+      {loadingCreate && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
