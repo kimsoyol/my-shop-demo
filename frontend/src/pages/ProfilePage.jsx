@@ -7,7 +7,7 @@ import { useProfileMutation } from "../slices/userApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { orderApiSlice, useGetMyOrdersQuery } from "../slices/ordersApiSlice";
+import { useGetMyOrdersQuery } from "../slices/ordersApiSlice";
 import { FaTimes } from "react-icons/fa";
 
 const ProfilePage = () => {

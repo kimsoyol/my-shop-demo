@@ -1,7 +1,7 @@
 
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Row, Col, Image, ListGroup, Card, Button, Form, FormGroup } from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Card, Button, Form } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { useGetProductDetailsQuery , useCreateReviewMutation} from "../slices/productsApiSlice";
 import Loader from "../components/Loader";
@@ -10,6 +10,7 @@ import { addToCart } from "../slices/cartSlice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify'
+import Meta from "../components/Meta";
 
 const ProductPage = () => {
   const dispatch = useDispatch()
@@ -67,6 +68,7 @@ const ProductPage = () => {
         </Message>
       ) : (
         <>
+        <Meta title={product.name} />
           <Row>
             <Col md={5}>
               <Image src={product.image} alt={product.name} fluid />
