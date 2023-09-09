@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import { Link, useParams } from "react-router-dom";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
+import Meta from "../components/Meta";
 
 const HomePage = () => {
   const { pageNumber, keyword } = useParams();
@@ -31,6 +32,7 @@ const HomePage = () => {
         </Message>
       ) : (
         <>
+        <Meta />
           {keyword ? (
             <h1>Search Result for '{keyword}'</h1>
           ) : (
