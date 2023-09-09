@@ -3,8 +3,15 @@ import Product from "../models/productModel.js";
 
 // GET  /api/products  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
-  res.json(products);
+  // for pagination
+  const pageSize = 2;
+  const page = Number(req.query.pageNumber);
+  const count = await Product.countDocuments();
+
+  const products = await Product.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1)); // if user on page page 2 skip the rest
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // GET  /api/products/:id  Public
@@ -94,7 +101,6 @@ const createProductReview = asyncHandler(async (req, res) => {
     };
 
     product.reviews.push(review);
-    
 
     product.numReviews = product.reviews.length;
 
@@ -102,7 +108,7 @@ const createProductReview = asyncHandler(async (req, res) => {
       product.reviews.reduce((acc, review) => acc + review.rating, 0) /
       product.reviews.length;
 
-    await product.save()
+    await product.save();
 
     res.status(200).json({ message: "Reiew added" });
   } else {
