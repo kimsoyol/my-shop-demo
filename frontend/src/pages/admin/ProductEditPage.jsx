@@ -11,7 +11,7 @@ import {
   useUploadProductImageMutation,
 } from "../../slices/productsApiSlice";
 
-const ProductEditScreen = () => {
+const ProductEditPage = () => {
   const { id: productId } = useParams();
   const navigate = useNavigate();
 
@@ -186,4 +186,4 @@ const ProductEditScreen = () => {
   );
 };
 
-export default ProductEditScreen;
+export default ProductEditPage;
