@@ -4,11 +4,17 @@ import Product from "../models/productModel.js";
 // GET  /api/products  Public
 const getProducts = asyncHandler(async (req, res) => {
   // for pagination
-  const pageSize = 2;
+  const pageSize = 12;
   const page = Number(req.query.pageNumber);
-  const count = await Product.countDocuments();
 
-  const products = await Product.find({})
+  // for search
+  const keyword = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: "i" }}
+    : {};
+
+  const count = await Product.countDocuments({...keyword});
+
+  const products = await Product.find({...keyword})
     .limit(pageSize)
     .skip(pageSize * (page - 1)); // if user on page page 2 skip the rest
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
