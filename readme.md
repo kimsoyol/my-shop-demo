@@ -32,7 +32,7 @@ Before you begin, ensure you have met the following requirements:
 
    ```bash
    git clone https://github.com/kimsoyol/my-shop-demo
-
+   ```
 
 ## Usage
 
