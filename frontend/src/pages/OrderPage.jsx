@@ -19,6 +19,7 @@ import {
 import Loader from "../components/Loader";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import moment from 'moment'
 
 const OrderPage = () => {
   const { id: orderId } = useParams();
@@ -68,7 +69,7 @@ const OrderPage = () => {
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
       try {
-        await payOrder({ orderId, details });
+        await payOrder({ orderId, details }).unwrap();
         refetch();
         toast.success("Payment successful");
       } catch (error) {
@@ -139,7 +140,7 @@ const OrderPage = () => {
               </p>
               {order.isDelivered ? (
                 <Message variant="success">
-                  Delivered on {order.deliveredAt}
+                  Delivered on {moment(order.deliveredAt).format('L, LT')}
                 </Message>
               ) : (
                 <Message variant="danger">Not Delivered</Message>
@@ -152,7 +153,7 @@ const OrderPage = () => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt}</Message>
+                <Message variant="success">Paid on {moment(order.paidAt).format('L, LT')}</Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}

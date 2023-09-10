@@ -38,7 +38,7 @@ const CartPage = () => {
         {cartItems.length === 0 ? (
           <Message>
             {" "}
-            Your cart is empty <Link to="/">Go Back</Link>
+            Your cart is empty <Link to="/">Go Shopping</Link>
           </Message>
         ) : (
           <ListGroup variant="flush">
