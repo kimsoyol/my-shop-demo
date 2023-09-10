@@ -3,10 +3,11 @@ import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
-//import { useLogoutMutation } from "../slices/userApiSlice";
+import { useLogoutMutation } from "../slices/userApiSlice";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../slices/authSlice";
 import SearchBox from "./SearchBox";
+import { resetCart } from "../slices/cartSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -15,11 +16,13 @@ const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
-  //const [logoutAPICall] = useLogoutMutation();
+  const [logoutAPICall] = useLogoutMutation();
 
-  const logoutHandler = () => {
+  const logoutHandler = async() => {
     try {
+      await logoutAPICall().unwrap()
       dispatch(logout());
+      dispatch(resetCart())
       navigate("/login");
     } catch (error) {
       console.log(error);
